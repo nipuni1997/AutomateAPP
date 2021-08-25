@@ -1,18 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-
+import {useNavigation  } from '@react-navigation/native';
 import { StyleSheet, Text, View,TouchableOpacity, Pressable ,Image, TextInput } from 'react-native';
 
-export default function App(props) {
+export default function Repair4(props) {
   //const [text, onChangeText] = React.useState(null);
   const [password, setPassword] = React.useState(null);
   const [confirm, setConfirm] = React.useState(null);
   const { onPress, title = 'Sign Up' } = props;
+  const navigation =  useNavigation();
   return (
     <View style={styles.container}>
       <Image
       style={{position:'absolute', bottom:'50%',left:35, width:"100%",height:275}}
-      source={require('./assets/images/image1.png')}
+      source={require('../assets/images/image1.png')}
       //resizeMode="contain"
       />
       <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
@@ -34,7 +35,7 @@ export default function App(props) {
         placeholder="Confirm Password"
       />
       
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('RepairHome')}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 

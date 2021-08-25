@@ -1,10 +1,13 @@
+import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
 
 export default function App(props) {
   const [text, onChangeText] = React.useState(null);
   const { onPress, title = 'Submit' } = props;
+  const navigation=useNavigation();
   return (
     <View style={styles.container}>
       <Image

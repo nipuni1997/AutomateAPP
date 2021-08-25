@@ -1,19 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-
+import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, Text, View,TouchableOpacity, Pressable ,Image, TextInput } from 'react-native';
 
-export default function App(props) {
+export default function Repair2(props) {
   //const [text, onChangeText] = React.useState(null);
   const [city, setCity] = React.useState(null);
   const [province, setProvince] = React.useState(null);
   const [tel, setTel] = React.useState(null);
   const { onPress, title = 'Continue' } = props;
+  const navigation =  useNavigation();
   return (
     <View style={styles.container}>
       <Image
       style={{position:'absolute', bottom:'50%',left:35, width:"100%",height:275}}
-      source={require('./assets/images/image1.png')}
+      source={require('../assets/images/image1.png')}
       //resizeMode="contain"
       />
       <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
@@ -42,11 +43,11 @@ export default function App(props) {
         placeholder="Telephone"
       />
       
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('Repair3')}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 
-    <TouchableOpacity style={styles.button1}>
+    <TouchableOpacity style={styles.button1} onPress={() => navigation.navigate('Repair1')}>
     <Text style={styles.text1}>Back</Text>
      </TouchableOpacity>
 

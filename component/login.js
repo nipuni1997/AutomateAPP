@@ -1,17 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
-
+import {useNavigation  } from '@react-navigation/native';
 export default function App(props) {
   //const [number, onChangeNumber] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
   const { onPress, title = 'Login' } = props;
+  const navigation =  useNavigation();
   return (
     <View style={styles.container}>
       <Image
       style={{position:'absolute', bottom:'50%',left:35, width:"100%",height:275}}
-      source={require('./assets/images/image1.png')}
+      source={require('../assets/images/image1.png')}
       //resizeMode="contain"
       />
       <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
@@ -32,7 +33,7 @@ export default function App(props) {
         //keyboardType="numeric"
         placeholder="PASSWORD"
       />
-      <Text style={{position:'absolute',left:'57%',top:570,color:'#42207A',fontSize:13,fontWeight:'bold'}}>
+      <Text style={{position:'absolute',left:'56%',top:'70%',color:'#42207A',fontSize:13,fontWeight:'bold'}} onPress={() => navigation.navigate('Forgot')}>
       Forgot Password?
       </Text>
       <Pressable style={styles.button} onPress={onPress}>
@@ -42,10 +43,10 @@ export default function App(props) {
       <Text style={{color:'black',position:'absolute',bottom:'10%',left:'35%',fontWeight:'bold'}}>Or register with</Text>
       <Image
       style={{position:'absolute', bottom:'9.6%',left:'63%', width:"8%",height:27}}
-      source={require('./assets/images/googleicon.png')}
+      source={require('../assets/images/googleicon.png')}
       />
       <Text style={{color:'black',position:'absolute',bottom:'5%',left:'25%',fontWeight:'bold'}}>Don't have an account?</Text>
-      <Text style={{color:'#42207A',position:'absolute',bottom:'5%',left:'65%',fontWeight:'bold'}}>Register</Text>
+      <Text style={{color:'#42207A',position:'absolute',bottom:'5%',left:'65%',fontWeight:'bold'}} onPress={() => navigation.navigate('HomeScreen')}>Register</Text>
 
       <StatusBar style="auto" />
     </View>

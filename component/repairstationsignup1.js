@@ -1,19 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-
+import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
 
-export default function App(props) {
+export default function Repair1(props) {
   //const [text, onChangeText] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [name, setName] = React.useState(null);
   const [address, setAddress] = React.useState(null);
   const { onPress, title = 'Continue' } = props;
+  const navigation =  useNavigation();
   return (
     <View style={styles.container}>
       <Image
       style={{position:'absolute', bottom:'50%',left:35, width:"100%",height:275}}
-      source={require('./assets/images/image1.png')}
+      source={require('../assets/images/image1.png')}
       //resizeMode="contain"
       />
       <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
@@ -42,12 +43,12 @@ export default function App(props) {
         placeholder="Address"
       />
       
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('Repair2')} >
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 
     <Text style={{color:'black',position:'absolute',bottom:'4%',left:'25%',fontWeight:'bold'}}>Already have an account?</Text>
-    <Text style={{color:'#42207A',position:'absolute',bottom:'4%',left:'70%',fontWeight:'bold'}}>Login</Text>
+    <Text style={{color:'#42207A',position:'absolute',bottom:'4%',left:'70%',fontWeight:'bold'}} onPress={() => navigation.navigate('Login')}>Login</Text>
      
 
       <StatusBar style="auto" />

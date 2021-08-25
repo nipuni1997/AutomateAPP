@@ -1,18 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React,{Component} from 'react';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
+import {useNavigation  } from '@react-navigation/native';
+import Axios from 'axios';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function App(props) {
+export default function HomeScreen(props) {
  // const [number, onChangeNumber] = React.useState(null);
  const [email, setEmail] = React.useState(null);
  const [name, setName] = React.useState(null);
  const [password, setPassword] = React.useState(null);
-  const { onPress, title = 'Sign up' } = props;
+ const { onPress, title = 'Sign up' } = props;
+ const navigation =  useNavigation();
+ const register = ()=>{
+   Axios.post('http://localhost3001/register',{
+     userName:name,
+     email:email,
+    password:password
+  }).then((response)=>{
+    console.log(response);
+  });
+ };
+ 
   return (
     <View style={styles.container}>
       <Image
       style={{position:'absolute', bottom:'50%',left:35, width:"100%",height:275}}
-      source={require('./assets/images/image1.png')}
+      source={require('../assets/images/image1.png')}
       //resizeMode="contain"
       />
       <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
@@ -21,41 +35,43 @@ export default function App(props) {
       
       <TextInput
         style={styles.input}
-        onChangeText={(val)=>setEmail(val)}
+        onChange={(e)=>{setEmail(e.target.value);}}
         //value={number}
         //keyboardType="numeric"
         placeholder="E-MAIL"
       />
      <TextInput
         style={styles.input}
-        onChangeText={(val)=>setName(val)}
+        onChange={(e)=>{setName(e.target.value);}}
         //value={number}
         //keyboardType="numeric"
         placeholder="NAME"
       />
       <TextInput
         style={styles.input}
-        onChangeText={(val)=>setPassword(val)}
+        onChange={(e)=>{setPassword(e.target.value);}}
         //value={number}
         //keyboardType="numeric"
         placeholder="PASSWORD"
       />
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={styles.button} onPress={register}>
       <Text style={styles.text}>{title}</Text>
       </Pressable>
 
       <Text style={{color:'black',position:'absolute',bottom:'8.7%',left:'35%',fontWeight:'bold'}}>Or register with</Text>
       <Image
-      style={{position:'absolute', bottom:'8.3%',left:'63%', width:"8%",height:27}}
-      source={require('./assets/images/googleicon.png')}
+      style={{position:'relative', bottom:'8.3%',left:'63%', width:"8%",height:27}}
+      source={require('../assets/images/googleicon.png')}
       />
       <Text style={{color:'black',position:'absolute',bottom:'4%',left:'25%',fontWeight:'bold'}}>Already have an account?</Text>
-      <Text style={{color:'#42207A',position:'absolute',bottom:'4%',left:'70%',fontWeight:'bold'}}>Login</Text>
+      <Text style={{color:'#42207A',position:'absolute',bottom:'4%',left:'70%',fontWeight:'bold'}} onPress={() => navigation.navigate('Login')} >Login</Text>
 
       <StatusBar style="auto" />
     </View>
+  
   );
-}
+  }
+
 
 const styles = StyleSheet.create({
   container: {
