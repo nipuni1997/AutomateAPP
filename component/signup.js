@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React,{Component} from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
 import {useNavigation  } from '@react-navigation/native';
 import Axios from 'axios';
@@ -7,19 +7,24 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export default function HomeScreen(props) {
  // const [number, onChangeNumber] = React.useState(null);
- const [email, setEmail] = React.useState(null);
- const [name, setName] = React.useState(null);
- const [password, setPassword] = React.useState(null);
+ const [email, setEmail] = useState('');
+ const [name, setName] = useState('');
+ const [password, setPassword] = useState('');
  const { onPress, title = 'Sign up' } = props;
  const navigation =  useNavigation();
  const register = ()=>{
-   Axios.post('http://localhost3001/register',{
+   Axios.post('http://192.168.8.103:3001/registercustomer',{
+    
      userName:name,
      email:email,
     password:password
-  }).then((response)=>{
-    console.log(response);
-  });
+ 
+  }).then(response => response.json())
+  .then(response => {
+    console.log(response)
+  })
+  .catch(error => alert("Error " + error))
+  
  };
  
   return (
@@ -35,21 +40,21 @@ export default function HomeScreen(props) {
       
       <TextInput
         style={styles.input}
-        onChange={(e)=>{setEmail(e.target.value);}}
+        onChangeText={(e)=>setEmail(e)}
         //value={number}
         //keyboardType="numeric"
         placeholder="E-MAIL"
       />
      <TextInput
         style={styles.input}
-        onChange={(e)=>{setName(e.target.value);}}
+        onChangeText={(e)=>setName(e)}
         //value={number}
         //keyboardType="numeric"
         placeholder="NAME"
       />
       <TextInput
         style={styles.input}
-        onChange={(e)=>{setPassword(e.target.value);}}
+        onChangeText={(e)=>setPassword(e)}
         //value={number}
         //keyboardType="numeric"
         placeholder="PASSWORD"

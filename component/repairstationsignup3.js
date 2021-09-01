@@ -1,11 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, Text, View,TouchableOpacity, Pressable ,Image, TextInput } from 'react-native';
-
+import Axios from 'axios';
 export default function Repair3(props) {
   const navigation =  useNavigation();
   const { onPress, title = 'Continue' } = props;
+  const [description,setInput]=useState('');
+  const register = ()=>{
+    Axios.post('http://192.168.8.103:3001/registerrepair',{
+     
+      description:description
+     
+  
+   }).then(response => response.json())
+   .then(response => {
+     console.log(response)
+   })
+   .catch(error => alert("Error " + error))
+   
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -24,7 +39,7 @@ export default function Repair3(props) {
       
       <TextInput
         style={styles.input}
-        onChangeText={text=> setInput({...input, body:text})}
+        onChangeText={(e)=>setInput(e)}
         multiline={true}
         numberOfLines={3}
         //value={number}
@@ -32,7 +47,7 @@ export default function Repair3(props) {
         placeholder="Description"
       />
       
-      <Pressable style={styles.button} onPress={() => navigation.navigate('Repair4')}>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('Repair4')} onPress={register}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 

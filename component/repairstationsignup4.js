@@ -1,14 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React,{useState} from 'react';
 import {useNavigation  } from '@react-navigation/native';
 import { StyleSheet, Text, View,TouchableOpacity, Pressable ,Image, TextInput } from 'react-native';
+import Axios from 'axios';
 
 export default function Repair4(props) {
   //const [text, onChangeText] = React.useState(null);
-  const [password, setPassword] = React.useState(null);
-  const [confirm, setConfirm] = React.useState(null);
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
   const { onPress, title = 'Sign Up' } = props;
   const navigation =  useNavigation();
+
+  const register = ()=>{
+    Axios.post('http://192.168.8.103:3001/registerrepair',{
+     
+      password:password,
+      confirm:confirm
+     
+  
+   }).then(response => response.json())
+   .then(response => {
+     console.log(response)
+   })
+   .catch(error => alert("Error " + error))
+   
+  };
+
+
   return (
     <View style={styles.container}>
       <Image
@@ -35,7 +53,7 @@ export default function Repair4(props) {
         placeholder="Confirm Password"
       />
       
-      <Pressable style={styles.button} onPress={() => navigation.navigate('RepairHome')}>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('RepairHome')} onPress={register}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 

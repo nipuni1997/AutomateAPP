@@ -1,11 +1,27 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
+import Axios from 'axios';
 
 export default function App(props) {
-  const [name, setName] = React.useState(null);
-  const [phonenumber, setPhonenumber] = React.useState(null);
-  const [message, setAddress] = React.useState(null);
+  const [name, setName] = useState('');
+  const [phonenumber, setPhonenumber] = useState('');
+  const [message, setAddress] = useState('');
+
+  const register = ()=>{
+    Axios.post('http://192.168.8.103:3001/registermechanics',{
+     
+      userName:name,
+      phonenumber:phonenumber,
+      message:message
+  
+   }).then(response => response.json())
+   .then(response => {
+     console.log(response)
+   })
+   .catch(error => alert("Error " + error))
+   
+  };
   return (
     <View style={styles.container}>
     
@@ -44,7 +60,9 @@ export default function App(props) {
       />
     
       
-
+    <Pressable style={styles.button} onPress={register}>
+      <Text style={styles.text}>{title}</Text>
+      </Pressable>
     </View>
       
       <StatusBar style="auto" />
@@ -58,6 +76,17 @@ const styles = StyleSheet.create({
     
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  button: {
+    alignItems: 'center',
+    position:'absolute',
+    bottom:'14%',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#42207A',
   },
   subContainer:{
    width:'90%',

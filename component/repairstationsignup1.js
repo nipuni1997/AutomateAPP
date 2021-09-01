@@ -1,15 +1,32 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React,{useState} from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
-
+import Axios from 'axios';
 export default function Repair1(props) {
   //const [text, onChangeText] = React.useState(null);
-  const [email, setEmail] = React.useState(null);
-  const [name, setName] = React.useState(null);
-  const [address, setAddress] = React.useState(null);
+  
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [address, setAddress] = useState('');
   const { onPress, title = 'Continue' } = props;
   const navigation =  useNavigation();
+
+
+ const register = ()=>{
+   Axios.post('http://192.168.8.103:3001/registerrepair',{
+    
+     userName:name,
+     email:email,
+    address:address
+ 
+  }).then(response => response.json())
+  .then(response => {
+    console.log(response)
+  })
+  .catch(error => alert("Error " + error))
+  
+ };
   return (
     <View style={styles.container}>
       <Image
@@ -23,27 +40,27 @@ export default function Repair1(props) {
       
       <TextInput
         style={styles.input}
-        onChangeText={(val)=>setEmail(val)}
+        onChangeText={(e)=>setEmail(e)}
         //value={text}
        // keyboardType="text"
         placeholder="E-MAIL"
       />
      <TextInput
         style={styles.input}
-        onChangeText={(val)=>setName(val)}
+        onChangeText={(e)=>setName(e)}
        // value={text}
        // keyboardType="text"
         placeholder="Name of Repair Station"
       />
       <TextInput
         style={styles.input}
-        onChangeText={(val)=>setAddress(val)}
+        onChangeText={(e)=>setAddress(e)}
         //value={number}
         //keyboardType="numeric"
         placeholder="Address"
       />
       
-      <Pressable style={styles.button} onPress={() => navigation.navigate('Repair2')} >
+      <Pressable style={styles.button} onPress={() => navigation.navigate('Repair2')} onPress={register} >
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 
