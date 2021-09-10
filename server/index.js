@@ -23,8 +23,11 @@ app.use(bodyParser.json({type:'application/json'}));
 
   const usersRouter = require('./routes/user');
 app.use('/user', usersRouter);
-// const shopsRouter = require('./routes/Shops');
-// app.use('/shops', shopsRouter);
+
+const repairRouter =require('./routes/repair');
+app.use('/repair',repairRouter);
+// const customerRouter = require('./routes/customer');
+// app.use('/customer', customerRouter);
 
 
 //   app.get("/getData",(req,res)=>{
