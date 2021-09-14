@@ -6,6 +6,7 @@ import Customerhome from './components/customerhome';
 import MyCart from './components/mycart';
 import CustAddAd from './components/custad';
 
+import { useNavigation } from '@react-navigation/core';
 const Tab = createBottomTabNavigator();
 
 function MyTabs() {
@@ -21,9 +22,10 @@ function MyTabs() {
   );
 }
 
-export default function App() {
+export default function BottomTab() {
   return (
     <NavigationContainer>
+     
       <MyTabs />
     </NavigationContainer>
   );

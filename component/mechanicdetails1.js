@@ -4,14 +4,14 @@ import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-nativ
 import Axios from 'axios';
 
 export default function App(props) {
-  const [name, setName] = useState('');
+  const [userName, setName] = useState('');
   const [phonenumber, setPhonenumber] = useState('');
   const [message, setAddress] = useState('');
 
   const register = ()=>{
     Axios.post('http://192.168.8.103:3001/registermechanics',{
      
-      userName:name,
+      userName:userName,
       phonenumber:phonenumber,
       message:message
   

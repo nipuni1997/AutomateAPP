@@ -1,16 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput , TouchableOpacity} from 'react-native';
 
 export default function App(props) {
-  const [name, setName] = React.useState(null);
-  const [city, setCity] = React.useState(null);
-  const [message, setAddress] = React.useState(null);
-  const [email, setEmail] = React.useState(null);
-  const [province, setProvince] = React.useState(null);
-  const [telephone, setTelephone] = React.useState(null);
-  const [newpassword, setNewpassword] = React.useState(null);
-  const [retype, setRetype] = React.useState(null);
+  const [name, setName] = useState('');
+  const [city, setCity] = useState('');
+  const [message, setAddress] = useState('');
+  const [email, setEmail] = useState('');
+  const [province, setProvince] = useState('');
+  const [telephone, setTelephone] = useState('');
+  const [newpassword, setNewpassword] = useState('');
+  const [retype, setRetype] = useState('');
   const { onPress, title = 'Submit' } = props;
   return (
     <View style={styles.container}>

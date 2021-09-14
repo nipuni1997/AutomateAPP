@@ -13,7 +13,7 @@ export default function App(props) {
       </Text>
       
         <Image style={{position:'absolute', bottom:'90%',right:'90%', width:"5%",height:'5%'}}
-      source={require('./assets/images/menuicon.png')} />
+      source={require('../assets/images/menuicon.png')} />
       <View style={styles.subContainer}>
         <Text style={{position:'absolute',left:'5%', bottom:'90%',color:'black',fontSize:25,fontWeight:'bold' }}>
         My Account

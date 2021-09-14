@@ -59,7 +59,7 @@ export default function Repair2(props) {
         placeholder="Telephone"
       />
       
-      <Pressable style={styles.button} onPress={() => navigation.navigate('Repair3')} onPress={register}>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('Repair3')} >
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 

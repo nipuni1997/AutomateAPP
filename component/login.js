@@ -1,13 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React ,{useState,useContext} from 'react';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
 import {useNavigation  } from '@react-navigation/native';
+// import { AuthContext } from '../helpers/AuthContext';
+import Axios from 'axios';
 export default function App(props) {
   //const [number, onChangeNumber] = React.useState(null);
-  const [email, setEmail] = React.useState(null);
-  const [password, setPassword] = React.useState(null);
+  // const user = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { onPress, title = 'Login' } = props;
   const navigation =  useNavigation();
+  // const userId=user.userId;
+
+  const login = ()=>{
+    Axios.post('http://192.168.1.16:3001/user/login',{
+     
+      // userId:userId,
+      email:email,
+     password:password
+  
+   }).then((response)=>{
+    if(response.data[0].userrole=='customer'){
+      navigation.navigate('CustomerHome');
+    }
+    // console.log(response.data[0].userrole);
+    
+  });
+ };
   return (
     <View style={styles.container}>
       <Image
@@ -21,14 +41,14 @@ export default function App(props) {
       
       <TextInput
         style={styles.input}
-        onChangeText={(val)=>setEmail(val)}
+        onChangeText={(e)=>setEmail(e)}
         //value={number}
         //keyboardType="numeric"
         placeholder="E-MAIL"
       />
      <TextInput
         style={styles.input}
-        onChangeText={(val)=>setPassword(val)}
+        onChangeText={(e)=>setPassword(e)}
         //value={number}
         //keyboardType="numeric"
         placeholder="PASSWORD"
@@ -36,7 +56,7 @@ export default function App(props) {
       <Text style={{position:'absolute',left:'56%',top:'70%',color:'#42207A',fontSize:13,fontWeight:'bold'}} onPress={() => navigation.navigate('Forgot')}>
       Forgot Password?
       </Text>
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={styles.button} onPress={login}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 
@@ -46,7 +66,7 @@ export default function App(props) {
       source={require('../assets/images/googleicon.png')}
       />
       <Text style={{color:'black',position:'absolute',bottom:'5%',left:'25%',fontWeight:'bold'}}>Don't have an account?</Text>
-      <Text style={{color:'#42207A',position:'absolute',bottom:'5%',left:'65%',fontWeight:'bold'}} onPress={() => navigation.navigate('HomeScreen')}>Register</Text>
+      <Text style={{color:'#42207A',position:'absolute',bottom:'5%',left:'65%',fontWeight:'bold'}} onPress={() => navigation.navigate('UserRole')}>Register</Text>
 
       <StatusBar style="auto" />
     </View>

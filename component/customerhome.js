@@ -1,5 +1,6 @@
 import React from 'react';
 import { SafeAreaView, Image,View, FlatList, StyleSheet, Text, TextInput} from 'react-native';
+import {useNavigation  } from '@react-navigation/native';
 
 const DATA = [
   {
@@ -34,12 +35,13 @@ const Item = ({ title , image , address, price}) => (
   </View>
 );
 
-const App = () => {
+const Customerhome = () => {
   const renderItem = ({ item }) => (
     <Item title={item.title} address={item.address} price={item.price} />  
     
   );
   const [search, setSearch] = React.useState(null);
+  const navigation =  useNavigation();
   return (
     <View style={styles.container1}>
       <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
@@ -110,4 +112,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
+export default Customerhome;

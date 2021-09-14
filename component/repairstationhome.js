@@ -1,8 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
-export default function App() {
+export default function RepairHome() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
     
@@ -11,7 +13,7 @@ export default function App() {
       </Text>
       
         <Image style={{position:'absolute', bottom:'90%',right:'90%', width:"5%",height:'5%'}}
-      source={require('./assets/images/menuicon.png')} />
+      source={require('../assets/images/menuicon.png')} />
 
       <View style={styles.subContainer}>
 
@@ -27,7 +29,7 @@ export default function App() {
 
       <View style={styles.subContainer1}>
       <View style={{ backgroundColor: "#EFDEFF", flex: 0.4 , margin:10}} >
-        <Image style={{width:'100%',height:'100%'}} source={require('./assets/images/man.png')}/>
+        <Image style={{width:'100%',height:'100%'}} source={require('../assets/images/man.png')}/>
         <Text style={styles.text1}>
         <Text style={{position:'absolute',top:'100%'}}>Name :</Text>
         <Text style={{position:'absolute',top:'130%'}}>Tel :</Text>
@@ -35,7 +37,7 @@ export default function App() {
       </View>
       
       <View style={{ backgroundColor: "#EFDEFF", flex: 0.4,margin:10 }} >
-        <Image style={{width:'100%',height:'100%'}} source={require('./assets/images/man.png')}/>
+        <Image style={{width:'100%',height:'100%'}} source={require('../assets/images/man.png')}/>
         <Text style={styles.text1}>
         <Text style={{position:'absolute',top:'100%'}}>Name :</Text>
         <Text style={{position:'absolute',top:'130%'}}>Tel :</Text>

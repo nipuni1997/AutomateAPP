@@ -1,31 +1,34 @@
 import { StatusBar } from 'expo-status-bar';
-import React,{useState} from 'react';
-import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
+import React,{Component} from 'react';
+import { StyleSheet,Keyboard, Text, View, Pressable ,Image,Platform, TextInput,KeyboardAvoidingView, TouchableWithoutFeedback, Button } from 'react-native';
 import {useNavigation  } from '@react-navigation/native';
 import Axios from 'axios';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-
 export default function HomeScreen(props) {
-
- const [email, setEmail] = useState('');
- const [name, setName] = useState('');
- const [password, setPassword] = useState('');
+ // const [number, onChangeNumber] = React.useState(null);
+ const [email, setEmail] = React.useState(null);
+ const [name, setName] = React.useState(null);
+ const [password, setPassword] = React.useState(null);
  const { onPress, title = 'Sign up' } = props;
  const navigation =  useNavigation();
  const register = ()=>{
-   Axios.post('http://192.168.1.16:3001/user/registercustomer',{
-    
+   Axios.post('http://localhost3001/register',{
      userName:name,
      email:email,
     password:password
- 
   }).then((response)=>{
     console.log(response);
   });
  };
  
   return (
+    <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    style={styles.container}
+  >
+    <TouchableWithoutFeedback  onPress={Keyboard.dismiss} >
+   
     <View style={styles.container}>
       <Image
       style={{position:'absolute', bottom:'50%',left:35, width:"100%",height:275}}
@@ -38,29 +41,27 @@ export default function HomeScreen(props) {
       
       <TextInput
         style={styles.input}
-        onChangeText={(e)=>setEmail(e)}
+        onChange={(e)=>{setEmail(e.target.value);}}
         //value={number}
         //keyboardType="numeric"
         placeholder="E-MAIL"
       />
      <TextInput
         style={styles.input}
-        onChangeText={(e)=>setName(e)}
+        onChange={(e)=>{setName(e.target.value);}}
         //value={number}
         //keyboardType="numeric"
         placeholder="NAME"
       />
       <TextInput
         style={styles.input}
-        onChangeText={(e)=>setPassword(e)}
-        keyboardType="visible-password"
+        onChange={(e)=>{setPassword(e.target.value);}}
         //value={number}
         //keyboardType="numeric"
         placeholder="PASSWORD"
       />
-      <Pressable style={styles.button} onPress={register}>
-      <Text style={styles.text}>{title}</Text>
-      </Pressable>
+      <Button title="Sign Up" style={styles.button} onPress={register}/>
+  
 
       <Text style={{color:'black',position:'absolute',bottom:'8.7%',left:'35%',fontWeight:'bold'}}>Or register with</Text>
       <Image
@@ -72,7 +73,8 @@ export default function HomeScreen(props) {
 
       <StatusBar style="auto" />
     </View>
-  
+    </TouchableWithoutFeedback>
+   </KeyboardAvoidingView> 
   );
   }
 

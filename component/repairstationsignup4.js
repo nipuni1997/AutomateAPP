@@ -53,7 +53,7 @@ export default function Repair4(props) {
         placeholder="Confirm Password"
       />
       
-      <Pressable style={styles.button} onPress={() => navigation.navigate('RepairHome')} onPress={register}>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('RepairHome')} >
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 

@@ -1,14 +1,33 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput , TouchableOpacity} from 'react-native';
 
 export default function App(props) {
-  const [name, setName] = React.useState(null);
-  const [city, setCity] = React.useState(null);
-  const [message, setAddress] = React.useState(null);
-  const [email, setEmail] = React.useState(null);
-  const [province, setProvince] = React.useState(null);
-  const [telephone, setTelephone] = React.useState(null);
+  const [userName, setName] = useState('');
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [email, setEmail] = useState('');
+  const [province, setProvince] = useState('');
+  const [telephone, setTelephone] = useState('');
+
+  const edit = ()=>{
+    Axios.post('http://192.168.8.103:3001/editshop',{
+     
+      userName:userName,
+      city:city,
+      address:address,
+      email:email,
+      province:province,
+      telephone:telephone
+
+  
+   }).then(response => response.json())
+   .then(response => {
+     console.log(response)
+   })
+   .catch(error => alert("Error " + error))
+   
+  };
   return (
     <View style={styles.container}>
     
@@ -17,7 +36,7 @@ export default function App(props) {
       </Text>
       
         <Image style={{position:'absolute', bottom:'90%',right:'90%', width:"5%",height:'5%'}}
-      source={require('./assets/images/menuicon.png')} />
+      source={require('../assets/images/menuicon.png')} />
       <View style={styles.subContainer}>
         <Text style={{position:'absolute',left:'5%', bottom:'90%',color:'black',fontSize:25,fontWeight:'bold' }}>
         My Account
@@ -66,8 +85,8 @@ export default function App(props) {
         keyboardType="numeric"
         placeholder="Telephone"
       />
-     <TouchableOpacity style={styles.button1}>
-    <Text style={styles.text1}>Back</Text>
+     <TouchableOpacity style={styles.button1} onPress={edit}>
+    <Text style={styles.text1}>Edit</Text>
      </TouchableOpacity>
 
       

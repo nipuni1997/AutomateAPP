@@ -4,6 +4,9 @@ const express = require("express");
 
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const cookieParser=require('cookie-parser');
+
+const session= require('express-session');
 const saltRound=10;
  const { sign } = require('jsonwebtoken');
  const { validateToken } = require('../middlewares/AuthMiddleware');
@@ -78,19 +81,23 @@ router.post('/registerrepair',async (req,res)=>{
 });
 
 router.post('/login' , async (req,res)=>{
-    const userEmail = req.body.userEmail;
+    const userEmail = req.body.email;
     const password = req.body.password;
-
+    // const userId= req.body.userId;
+    // console.log(userId); 
+console.log(userEmail,password);
     db.query("SELECT * from user WHERE email=?",[userEmail],
     (err,result)=>{
-       if(err){
-           res.send({err:err});
-       }
+        console.log(err);
+    //    if(err){
+    //     //    res.send({err:err});
+    //     console.log("user cant find");
+    //    }
        if(result.length>0){
         bcrypt.compare(password,result[0].password,(error,response)=>{
             if(response){
                 res.send(result);
-                console.log(result);
+                console.log(result[0].id);
             }else{
                 res.send({message : "User and password do not match."});
             }
@@ -103,6 +110,7 @@ router.post('/login' , async (req,res)=>{
         })
        }else{
            res.send({message : "User does not exist"});
+           console.log("cant find user");
        }
     }
     );
