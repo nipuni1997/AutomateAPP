@@ -23,6 +23,7 @@ export default function App(props) {
    }).then((response)=>{
     if(response.data[0].userrole=='customer'){
       navigation.navigate('CustomerHome');
+     
     }
     // console.log(response.data[0].userrole);
     

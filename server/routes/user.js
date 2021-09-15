@@ -1,4 +1,4 @@
-const express = require("express");
+ const express = require("express");
 
 
 
@@ -96,39 +96,39 @@ console.log(userEmail,password);
        if(result.length>0){
         bcrypt.compare(password,result[0].password,(error,response)=>{
             if(response){
-                res.send(result);
+                req.session.user=result;
+                console.log(req.session.user);
                 console.log(result[0].id);
+                const accessToken = sign(
+                    {  id: result[0].id},
+                    'secret'
+                  );
+                  res.json(accessToken);
+                return res.send(result);
+                
+            
             }else{
-                res.send({message : "User and password do not match."});
+                console.log("Password incorrect");
+               return res.send({message : "User and password do not match."});
             }
-    const accessToken = sign(
-        {  id: result[0].id},
-        'secret'
-      );
-      res.json(accessToken);
+            // const accessToken = sign(
+            //     {  id: result[0].id},
+            //     'secret'
+            //   );
+            //   res.json(accessToken);
 
         })
        }else{
-           res.send({message : "User does not exist"});
-           console.log("cant find user");
+        console.log("cant find user");
+         return  res.send({message : "User does not exist"});
+           
        }
     }
     );
+    console.log(session.user);
 });
-//     // if(!user) res.json({ error: "User doesn't exist" });
-// if (result.length)
-   
-//     (err,result)=>{
-//         console.log(err);
-//     });
-//     if(userPassword != password) res.json({error: "Password is incorrect"}); 
 
-//     const accessToken = sign(
-//         {  id: user},
-//         'secret'
-//       );
-//       res.json(accessToken);
-    
-// }); 
+
+
 
 module.exports = router ;
