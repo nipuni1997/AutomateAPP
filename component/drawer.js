@@ -1,20 +1,20 @@
-// import 'react-native-gesture-handler';
+//import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import MyAds from './Postdata';
-import Mechanics from './Selectdata';
-import Contact from './myaccount1';
-import About from './myaccount2';
+//import MyAds from './myads';
+//import Mechanics from './mechaniclist';
+//import Contact from './contactus';
+import About from './aboutus';
+import Chat from './chat';
+//import Land from './landing';
 
 const Drawer = createDrawerNavigator();
 
 function MyDrawer() {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="My Ads" component={MyAds} />
-      <Drawer.Screen name="Mechanics list" component={Mechanics} />
-      <Drawer.Screen name="Contacts" component={Contact} />
+      <Drawer.Screen name="Chat" component={Chat} />
       <Drawer.Screen name="About" component={About} />
     </Drawer.Navigator>
   );
