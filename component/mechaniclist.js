@@ -1,66 +1,79 @@
-import React from 'react';
-import { SafeAreaView, Image,View, FlatList, StyleSheet, Text, Pressable} from 'react-native';
+import React,{useState,useEffect} from 'react';
+import { SafeAreaView,Button, Image,View, FlatList, StyleSheet, Text, Pressable,ScrollView} from 'react-native';
+// import { ScrollView } from 'react-native-gesture-handler';
 
-const DATA = [
-  {
-    id: '1',
-    title: 'Tail Lamp',
-    address: 'Gampaha',
-    price:'Rs.60,000',
-    image:require("./assets/images/man.png")
-  },
-  {
-    id: '2',
-    title: 'Tail Lamp',
-    address: 'Gampaha',
-    price:'Rs.60,000',
-    image:require("./assets/images/man.png")
-  },
-  {
-    id: '3',
-    title: 'Tail Lamp',
-    address: 'Gampaha',
-    price:'Rs.60,000',
-    image:require("./assets/images/man.png")
-  },
-];
+import Axios from 'axios';
+import { useNavigation } from '@react-navigation/core';
 
-const Item = ({ title , image , address, price}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-    <Text style={styles.text}>{address}</Text>
-    <Text style={styles.text}>{price}</Text>
-    <Image style={{width:80,height:50}}>{image}</Image>
-  </View>
-);
+// const Item = ({ title , image , address, price}) => (
+//   <View style={styles.item}>
+//     <Text style={styles.title}>{title}</Text>
+//     <Text style={styles.text}>{address}</Text>
+//     <Text style={styles.text}>{price}</Text>
+//     <Image style={{width:80,height:50}}>{image}</Image>
+//   </View>
+// );
 
-const App = (props) => {
-  const renderItem = ({ item }) => (
-    <Item title={item.title} address={item.address} price={item.price} />  
-    
-  );
+const MechanicList = (props) => {
+
   const { onPress, title = 'Add Mechanics' } = props;
+  const [data,setData]=useState([]);
+  const navigation=useNavigation();
+
+  useEffect(()=>{
+
+
+      Axios.get("http://192.168.1.16:3001/repair/getMechanic").then((response)=>{
+          console.log(response.data);
+          setData(response.data);
+
+
+      }).catch((e)=>{
+          console.log(e);
+      })
+
+  },[])
+
+  const deleteMechanic = (id)=>{
+    Axios.delete(`http://192.168.1.16:3001/repair/deleteMechanic/${id}`) .then((response)=>{
+      setData(data.filter((item)=>{
+return item.id !=id;
+      })
+      );
+    });
+  };
   return (
     <View style={styles.container1}>
-      <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
-        AUTOMATE
-      </Text>
+    
 
       
-      <Image style={{position:'absolute', bottom:'90%',right:'90%', width:"5%",height:'5%'}}
-      source={require('./assets/images/menuicon.png')} />
+
 
      
 
     <SafeAreaView style={styles.container}>
-      <FlatList
+      {/* <FlatList
         data={DATA}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-      />
+      /> */}
+      <ScrollView>
+        {
+      data.map((item)=>(
+          //
+           <View key={item.id} style={styles.item}> 
+               <Text style={styles.title}>{item.name}</Text> 
+               <Text style={styles.text}>{item.tel}</Text> 
+               {/* <Text style={styles.text}>{item.image}</Text>  */}
+               <Pressable style={styles.button1}  onPress={()=>deleteMechanic(item.id)}><Text style={styles.textButton1}>Delete</Text></Pressable>
+
+               </View>
+      ))
+}
+      </ScrollView>
     </SafeAreaView>
 
-    <Pressable style={styles.button} onPress={onPress}>
+    <Pressable style={styles.button}  onPress={() => navigation.navigate('Mechanics')}>
       <Text style={styles.textButton}>{title}</Text>
     </Pressable>
     </View>
@@ -70,7 +83,7 @@ const App = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: '45%',
+    marginTop: '30%',
     width:'90%'
   },
   container1: {
@@ -80,29 +93,44 @@ const styles = StyleSheet.create({
   },
   
   item: {
-    backgroundColor: '#EFDEFF',
+    backgroundColor: 'white',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
   },
   title: {
-    fontSize: 32,
+    fontSize: 22,
+    fontWeight:'bold'
   },
   text:{
-    fontSize:20,
+    fontSize:19,
 
   },
   button: {
     alignItems: 'center',
     position:'absolute',
-    top:'15%',
-    left:'55%',
+    top:'5%',
+    left:'57%',
     justifyContent: 'center',
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 4,
     elevation: 3,
     backgroundColor: '#42207A',
+  },
+  button1: {
+    alignItems: 'center',
+    position:'absolute',
+    top:'74%',
+    left:'80%',
+    width:'30%',
+    height:35,
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'red',
   },
   textButton: {
     fontSize: 15,
@@ -111,6 +139,13 @@ const styles = StyleSheet.create({
     letterSpacing: 0.25,
     color: 'white',
   },
+  textButton1: {
+    fontSize: 15,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'black',
+  },
 });
 
-export default App;
+export default MechanicList;

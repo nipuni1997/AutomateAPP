@@ -16,10 +16,10 @@ export default function UserRole() {
       <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
         AUTOMATE
       </Text> 
-      <Image
+      {/* <Image
       style={{position:'absolute', bottom:'90%',left:'3%', width:24 ,height:24}}
       source={require('../assets/images/backicon.png')}
-      />
+      /> */}
       <Text style={{position:'absolute',left:'4%',top:'55%',color:'#42207A',fontSize:25,fontWeight:'bold'}}>
       Are you a Customer or a Repair Station?
       </Text>

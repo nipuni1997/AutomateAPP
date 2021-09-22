@@ -11,8 +11,11 @@ export default function HomeScreen(props) {
  const [email, setEmail] = useState('');
  const [name, setName] = useState('');
  const [password, setPassword] = useState('');
+ const [isValidUser,setisValidUser]=useState('');
+ const [isValidPassword,setisValidPassword]=useState('');
  const { onPress, title = 'Sign up' } = props;
  const navigation =  useNavigation();
+ 
  const register = ()=>{
    Axios.post('http://192.168.1.16:3001/user/registercustomer',{
     
@@ -22,9 +25,42 @@ export default function HomeScreen(props) {
  
   }).then((response)=>{
     console.log(response);
-    navigation.navigate('Login')
+    navigate.navigation('Login')
   });
  };
+
+ const textInputChange=(e)=>{
+   if(e.length>=4){
+     setisValidUser ({
+      //  ...data,
+       setName:e,
+      //  check_textInputChange:true,
+       isValidUser:true
+
+     });
+   }
+   else{
+     setisValidUser({
+      //  ...data,
+      setName:e,
+      //  check_textInputChange:false,
+       isValidUser:false
+     });
+   }
+ }
+
+ const handlePassword=(e)=>{
+   if(e.length>=8){
+     setisValidPassword({
+       isValidPassword:true
+     });
+   }
+   else{
+     setisValidPassword({
+       isValidPassword:false
+     })
+   }
+ }
  
   return (
     <View style={styles.container}>
@@ -46,19 +82,28 @@ export default function HomeScreen(props) {
       />
      <TextInput
         style={styles.input}
-        onChangeText={(e)=>setName(e)}
+        onChangeText={(e)=>{setName({e});textInputChange({e})}}
         //value={number}
         //keyboardType="numeric"
         placeholder="NAME"
       />
+
+      {isValidUser?null:
+      <Text style={styles.errMsg}>User name must be longer than 4 characters!</Text>
+      }
+
       <TextInput
         style={styles.input}
-        onChangeText={(e)=>setPassword(e)}
-        secureTextEntry={true}
+        onChangeText={(e)=>{setPassword({e});handlePassword({e})}}
+        keyboardType="visible-password"
         //value={number}
         //keyboardType="numeric"
         placeholder="PASSWORD"
       />
+
+      {isValidPassword?null:
+      <Text style={styles.errMsg}>Password must be longer than 8 characters!</Text>
+      }
       <Pressable style={styles.button} onPress={register}>
       <Text style={styles.text}>{title}</Text>
       </Pressable>
@@ -89,6 +134,10 @@ const styles = StyleSheet.create({
       margin: 10,
       borderWidth: 3,
       borderColor:'#42207A'
+    },
+    errMsg:{
+      color:'red',
+      top:'10%'
     },
     button: {
       alignItems: 'center',

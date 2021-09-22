@@ -1,18 +1,32 @@
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-
+import React,{useState} from 'react';
+import Axios from 'axios';
 import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
 
+
 export default function App(props) {
-  const [text, onChangeText] = React.useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { onPress, title = 'Submit' } = props;
-  const navigation= useNavigation();
+  const navigation =  useNavigation();
+
+  const forget = ()=>{
+    Axios.post('http://192.168.1.16:3001/user/forget',{
+      email:email,
+     password:password
+  
+   }).then((response)=>{
+     console.log(response);
+    navigation.navigate('Login');
+   });
+  };
+
   
   return (
     <View style={styles.container}>
       <Image
-      style={{position:'absolute', bottom:'40%',left:'3%', width:373,height:350}}
+      style={{position:'absolute', bottom:'40%', width:300,height:300}}
       source={require('../assets/images/forget-1.png')}
       //resizeMode="contain"
       />
@@ -22,14 +36,22 @@ export default function App(props) {
       
       <TextInput
         style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
+        onChangeText={(e)=>setEmail(e)}
+        value={email}
         //keyboardType="numeric"
         placeholder="E-MAIL"
       />
+        
+        <TextInput
+        style={styles.input}
+        onChangeText={(e)=>setPassword(e)}
+        value={password}
+        //keyboardType="numeric"
+        placeholder="Password"
+      />
      
       
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={styles.button} onPress={forget}>
       <Text style={styles.text}>{title}</Text>
       </Pressable>
 
@@ -61,7 +83,7 @@ const styles = StyleSheet.create({
     button: {
       alignItems: 'center',
       position:'absolute',
-      bottom:'16%',
+      top:650,
       justifyContent: 'center',
       paddingVertical: 12,
       paddingHorizontal: 32,

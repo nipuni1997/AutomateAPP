@@ -12,19 +12,20 @@ export default function Repair4(props) {
   const navigation =  useNavigation();
 
   const register = ()=>{
-    Axios.post('http://192.168.8.103:3001/registerrepair',{
+    Axios.post('http://192.168.1.16:3001/user/registerrepair',{
      
       password:password,
       confirm:confirm
      
   
-   }).then(response => response.json())
-   .then(response => {
-     console.log(response)
-   })
-   .catch(error => alert("Error " + error))
-   
-  };
+   }).then((response)=>{
+    console.log(response);
+     
+    }
+    // console.log(response.data[0].userrole);
+    
+  );
+};
 
 
   return (
@@ -53,7 +54,7 @@ export default function Repair4(props) {
         placeholder="Confirm Password"
       />
       
-      <Pressable style={styles.button} onPress={() => navigation.navigate('RepairHome')} >
+      <Pressable style={styles.button} onPress={register} >
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 

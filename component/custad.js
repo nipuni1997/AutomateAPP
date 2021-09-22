@@ -1,27 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Pressable ,Image, TextInput , TouchableOpacity} from 'react-native';
-
+import React,{useState} from 'react';
+import { StyleSheet, Text, View, Pressable ,Image, TextInput , TouchableWithoutFeedback, KeyboardAvoidingView,Keyboard} from 'react-native';
+import Axios from 'axios';
 export default function App(props) {
-  const [heading, setHeading] = React.useState(null);
-  const [brand, setBrand] = React.useState(null);
-  const [year, setYear] = React.useState(null);
-  const [genuine, setGenuine] = React.useState(null);
-  const [condition,setCondition] = React.useState(null);
-  const [description, setDescription] = React.useState(null);
-  const [img, setImage] = React.useState(null);
+  const [heading, setHeading] = useState('');
+  const [brand, setBrand] = useState('');
+  const [year, setYear] = useState('');
+  const [genuine, setGenuine] = useState('');
+  const [condition,setCondition] = useState('');
+  const [description, setDescription] = useState('');
+  const [img, setImage] = useState('');
   const { onPress, title = 'Submit' } = props;
+
+  const addAdd = ()=>{
+    Axios.post('http://192.168.1.16:3001/user/addAdd',{
+     
+      heading:heading,
+      brand:brand,
+     year:year,
+     country:genuine,
+     condition:condition,
+     description:description,
+    price:img,
+    
+  
+   }).then((response)=>{
+     console.log(response);
+     navigation.navigate('Login')
+      
+     }
+     // console.log(response.data[0].userrole);
+     
+   );
+ };
+
   return (
     <View style={styles.container}>
-    
+{/*     
       <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
         AUTOMATE
-      </Text>
+      </Text> */}
       
-        <Image style={{position:'absolute', bottom:'90%',right:'90%', width:"5%",height:'5%'}}
-      source={require('./assets/images/menuicon.png')} />
-      <View style={styles.subContainer}>
-        <Text style={{position:'absolute',left:'5%', bottom:'90%',color:'black',fontSize:25,fontWeight:'bold' }}>
+      <KeyboardAvoidingView behavior={Platform.OS == 'ios' ? 'padding' : 'height'} style={styles.container}   >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      
+      <View style={styles.inner}>
+        <Text style={styles.header}>
         Add Details of Advertisement
       </Text>
       
@@ -52,7 +76,7 @@ export default function App(props) {
         onChangeText={(val)=>setGenuine(val)}
         //value={number}
         //keyboardType="numeric"
-        placeholder="Is Genuine"
+        placeholder="Country"
       />
       <TextInput
         style={styles.input}
@@ -73,18 +97,19 @@ export default function App(props) {
         onChangeText={(val)=>setImage(val)}
         //value={number}
         //keyboardType="numeric"
-        placeholder="Upload an Image"
+        placeholder="Price"
       />
      
      
-     <Pressable style={styles.button} onPress={onPress}>
+     <Pressable style={styles.button} onPress={addAdd}>
       <Text style={styles.textButton}>{title}</Text>
     </Pressable>
 
 
 
     </View>
-      
+    </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
       <StatusBar style="auto" />
     </View>
   );
@@ -97,24 +122,46 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  header:{
+    marginBottom:48,
+    fontSize:22,
+    color:'#42207A',
+    fontWeight:'bold',
+    top:-30,
+    left:-10
+    // {position:'absolute',left:'130%',  marginBottom:48,color:'#42207A',fontSize:25, }
+    // {position:'absolute',left:'5%', bottom:'90%',color:'black',fontSize:25,fontWeight:'bold' }
+      },
   subContainer:{
-   width:'90%',
+   width:'100%',
    height:'70%',
    top:'5%',
     backgroundColor: '#EFDEFF'
   },
-    input: {
-      borderRadius:4,
-      textAlign:'left',
-      fontWeight:'bold',
-      backgroundColor:'white',
-      top:'10%',
-      height: 50,
-      width:'90%',
-      margin: 20,
-      borderWidth: 1,
-      borderColor:'#42207A'
-    },
+  input: {
+    textAlign:'center',
+    fontWeight:'bold',
+    // top:20,
+    height: 50,
+    width:275,
+    margin: 10,
+    borderWidth: 3,
+    borderColor:'#42207A',
+    // padding:1,
+    marginBottom:36
+  //  flexShrink:2
+    // paddingVertical: 10,
+    // paddingHorizontal: 10
+    // height: 40,
+    // borderColor: "#000000",
+    // borderBottomWidth: 1,
+    // marginBottom: 36
+  },
+  inner: {
+    padding: 100,
+    flex: 1,
+    justifyContent: "space-around"
+  },
     
     text: {
       fontSize: 20,
@@ -127,7 +174,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       position:'absolute',
       bottom:'5%',
-      left:'30%',
+      left:'125%',
       justifyContent: 'center',
       paddingVertical: 12,
       paddingHorizontal: 32,

@@ -41,6 +41,7 @@ bcrypt.hash(password,saltRound,(err,hash) =>{
     [email,userName,hash,userrole],
     (err,result)=>{
         console.log(err);
+        res.send(result);
     }
     );
 })
@@ -59,7 +60,7 @@ router.post('/registerrepair',async (req,res)=>{
     const password=req.body.password;
     const confirm=req.body.confirm;
     const userrole='repair';
-    console.log(username,email,address);
+    console.log(userName,email,password);
 
 
     bcrypt.hash(password,saltRound,(err,hash) =>{
@@ -69,15 +70,68 @@ router.post('/registerrepair',async (req,res)=>{
     db.query("INSERT INTO user (email,name,password,userrole) VALUES (?,?,?,?)",
     [email,userName,hash,userrole],
     (err,result)=>{
-        console.log(err);
+        if(err){
+        console.log(err);}else{
+db.query("Select * from user WHERE email=?",[email],(err,result)=>{
+//  const userId=result[0].id;
+// console.log(result[0].id);
+db.query("INSERT INTO repair (address,city,province,tel,description,name,userId) VALUES (?,?,?,?,?,?,?)",
+[address,city,province,tel,description,userName,result[0].id],
+(err,result)=>{
+    if(err)
+    console.log(err);
+    return res.send(result);
+
+});
+
+
+})
+        // const userId=result[0].id;
+     
+        }
     }
+    
     );
 })
-    db.query("INSERT INTO repair (address,city,province,tel,description,email) VALUES (?,?,?,?,?,?)",
-    [address,city,province,tel,description,email],
-    (err,result)=>{
-        console.log(err);
+// const userId=db.query("SELECT id from user WHERE email=?",[email],
+// (err,result)=>{
+//     console.log(err);
+// }
+// );
+   
+});
+
+router.get('/getData',(req,res)=>{
+    const sqlSelect="SELECT * FROM user";
+    db.query(sqlSelect,(err,result)=>{
+       
+        
+       console.log(result);
+             res.send(result);
+        
     });
+});
+
+router.get('/getSpare',(req,res)=>{
+    const sqlSelect="SELECT * FROM spare";
+    db.query(sqlSelect,(err,result)=>{
+       
+        
+       console.log(result);
+             res.send(result);
+        
+    });
+});
+router.delete('/deleteAdd/:id',(req,res)=>{
+    const id = req.params.id;
+    console.log(id);
+    db.query("DELETE FROM addvertisement WHERE id = ?",id,(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+           return res.send(result);
+        }
+    })
 });
 
 router.post('/login' , async (req,res)=>{
@@ -98,18 +152,20 @@ console.log(userEmail,password);
             if(response){
                 req.session.user=result;
                 console.log(req.session.user);
+                // const accessToken=req.session.user.id;
                 console.log(result[0].id);
-                const accessToken = sign(
-                    {  id: result[0].id},
-                    'secret'
-                  );
-                  res.json(accessToken);
+                // const accessToken = sign(
+                //     {  id: result[0].id},
+                //     'secret'
+                //   );
+                //   res.json(accessToken);
                 return res.send(result);
+               
                 
             
             }else{
                 console.log("Password incorrect");
-               return res.send({message : "User and password do not match."});
+               return res.send("Password incorrect");
             }
             // const accessToken = sign(
             //     {  id: result[0].id},
@@ -120,13 +176,70 @@ console.log(userEmail,password);
         })
        }else{
         console.log("cant find user");
-         return  res.send({message : "User does not exist"});
+         return  res.send('Cant find user');
            
        }
     }
     );
     console.log(session.user);
 });
+
+//Add Advertisements
+
+router.post('/addAdd', async (req,res)=>{
+    const heading =req.body.heading;
+    const brand =req.body.brand;
+    const year=req.body.year;
+    const country=req.body.country;
+    const condition = req.body.condition;
+    const description=req.body.description;
+    const price = req.body.price;
+console.log(heading,brand,year);
+
+
+    db.query("INSERT INTO addvertisement (heading,brand,year,country,condition,discription,price) VALUES (?,?,?,?,?,?,?)",
+    [heading,brand,year,country,condition,description,price],
+    (err,result)=>{
+        console.log(err);
+    }
+);
+  
+});
+
+//forget password
+router.post('/forget',async(req,res)=>{
+    const email=req.body.email;
+    const password=req.body.password;
+
+    console.log(email,password);
+    bcrypt.hash(password,saltRound,(err,hash) =>{
+        if(err){
+            console.log(err);
+        }
+    db.query("UPDATE user SET password=? WHERE email=?",[hash,email],(err,result)=>{
+        console.log(err);
+        
+           return res.send("Updated");
+    })
+        
+    })
+
+});
+
+
+router.post('/getRepairId/:id',(req,res)=>{
+    const id = req.params.id;
+    console.log(id);
+    db.query("SELECT * FROM repair WHERE id = ?",id,(err,result)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.send(result);
+        }
+    })
+  });
+
+
 
 
 

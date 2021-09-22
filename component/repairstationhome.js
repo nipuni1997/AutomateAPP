@@ -1,52 +1,61 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Pressable ,Image, TextInput } from 'react-native';
+import React,{useState,useEffect} from 'react';
+import { StyleSheet, Text, View, Pressable ,Image, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import Axios from 'axios';
 
 export default function RepairHome() {
   const navigation = useNavigation();
+  const [data,setData]=useState([]);
+
+
+  useEffect(()=>{
+
+
+      Axios.get("http://192.168.1.16:3001/repair/getRepair").then((response)=>{
+          console.log(response.data);
+          setData(response.data);
+
+
+      }).catch((e)=>{
+          console.log(e);
+      })
+
+  },[])
+
+ 
   return (
     <View style={styles.container}>
-    
-      <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
-        AUTOMATE
+      <Image
+      style={{position:'absolute', bottom:'50%', width:415,height:410}}
+      source={require('../assets/images/sparehome.jpeg')}
+      //resizeMode="contain"
+      />
+     <Text style={{position:'absolute',left:'2%',top:'52%',color:'#42207A',fontSize:25,fontWeight:'bold'}}>
+      Store Information
       </Text>
       
-        <Image style={{position:'absolute', bottom:'90%',right:'90%', width:"5%",height:'5%'}}
-      source={require('../assets/images/menuicon.png')} />
+      {
+        data.map((item)=>(
 
-      <View style={styles.subContainer}>
+      <TouchableOpacity style={styles.subContainer} key={item.id}>
+  
 
-      <Text style={styles.text}>Name of repair station :</Text>
-      <Text style={styles.text}>Address :</Text>
-      <Text style={styles.text}>City :</Text>
-      <Text style={styles.text}>Province :</Text>
-      <Text style={styles.text}>Tel1 :</Text>
-      <Text style={styles.text}>Tel2 :</Text>
-      <Text style={styles.text}>E-mail :</Text>
-      <Text style={styles.text}>Description :</Text>
-      <Text style={styles.text}>Mechanics :</Text>
+      <Text style={styles.text}>Shop Name        : {item.name}</Text>
+      <Text style={styles.text}>Address              : {item.address}</Text>
+      <Text style={styles.text}>City                      : {item.city}</Text>
+      <Text style={styles.text}>Province             : {item.province}</Text>
+      <Text style={styles.text}>Phone no.           : {item.tel}</Text>
+      {/* <Text style={styles.text}>E-mail       :Dilanka@gmail.com</Text> */}
+      <Text style={styles.text}>Description        : {item.description}</Text>
+      {/* <Text style={styles.text}>Mechanics         :</Text> */}
 
-      <View style={styles.subContainer1}>
-      <View style={{ backgroundColor: "#EFDEFF", flex: 0.4 , margin:10}} >
-        <Image style={{width:'100%',height:'100%'}} source={require('../assets/images/man.png')}/>
-        <Text style={styles.text1}>
-        <Text style={{position:'absolute',top:'100%'}}>Name :</Text>
-        <Text style={{position:'absolute',top:'130%'}}>Tel :</Text>
-        </Text>
-      </View>
-      
-      <View style={{ backgroundColor: "#EFDEFF", flex: 0.4,margin:10 }} >
-        <Image style={{width:'100%',height:'100%'}} source={require('../assets/images/man.png')}/>
-        <Text style={styles.text1}>
-        <Text style={{position:'absolute',top:'100%'}}>Name :</Text>
-        <Text style={{position:'absolute',top:'130%'}}>Tel :</Text>
-        </Text>
-      </View>
-      
-    </View>
+ 
+  
 
-      </View>
+      </TouchableOpacity>
+        ))
+      }
       <StatusBar style="auto" />
     </View>
   );
@@ -60,11 +69,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   subContainer:{
-    width:'90%',
-    height:'65%',
-    top:'10%',
-    //paddingLeft:5,
-    backgroundColor: '#EFDEFF'
+    // width:'90%',
+    // height:'65%',
+    // top:'5%',
+    // //paddingLeft:5,
+    // backgroundColor: 'white',
+    // borderColor:'#42207A',
+    // borderWidth:5
+    left:1,
+    padding:20,
+    paddingTop:1,
+    top:200,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderColor:'#42207A',
+    shadowColor: 'rgba(0,0,0, .4)', // IOS
+    shadowOffset: { height: 1, width: 1 }, // IOS
+    shadowOpacity: 1, // IOS
+    shadowRadius: 1, //IOS
+    backgroundColor: '#fff',
+    elevation: 2, // Android
+    height: 260,
+    width: 400,
+    justifyContent: 'center',
+    // alignItems: 'center',
+     flexDirection: 'column',
    },
    subContainer1:{
     flexDirection: "row",
@@ -73,7 +102,7 @@ const styles = StyleSheet.create({
    
    },
     text: {
-      fontSize: 20,
+      fontSize: 17,
       fontWeight: 'bold',
       letterSpacing: 0.25,
       color: 'black',

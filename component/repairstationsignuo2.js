@@ -5,25 +5,30 @@ import { StyleSheet, Text, View,TouchableOpacity, Pressable ,Image, TextInput } 
 import Axios from 'axios';
 export default function Repair2(props) {
   //const [text, onChangeText] = React.useState(null);
+  const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [province, setProvince] = useState('');
   const [tel, setTel] = useState('');
+  const [description, setDesc] = useState('');
   const { onPress, title = 'Continue' } = props;
   const navigation =  useNavigation();
   const register = ()=>{
-    Axios.post('http://192.168.8.103:3001/registerrepair',{
-     
+    Axios.post('http://192.168.1.16:3001/user/registerrepair',{
+     address:address,
       city:city,
       province:province,
-     tel:tel
+     tel:tel,
+     description:description
   
-   }).then(response => response.json())
-   .then(response => {
-     console.log(response)
-   })
-   .catch(error => alert("Error " + error))
-   
-  };
+   }).then((response)=>{
+    console.log(response);
+    navigation.navigate('Repair3')
+     
+    }
+    // console.log(response.data[0].userrole);
+    
+  );
+};
 
 
   return (
@@ -36,7 +41,13 @@ export default function Repair2(props) {
       <Text style={{position:'absolute',left:'63%', bottom:'90%',color:'#42207A',fontSize:25,fontWeight:'bold' }}>
         AUTOMATE
       </Text> 
-      
+      <TextInput
+        style={styles.input}
+        onChangeText={(val)=>setAddress(val)}
+        //value={text}
+       // keyboardType="text"
+        placeholder="Address"
+      />
       <TextInput
         style={styles.input}
         onChangeText={(val)=>setCity(val)}
@@ -58,8 +69,15 @@ export default function Repair2(props) {
         keyboardType="numeric"
         placeholder="Telephone"
       />
+      <TextInput
+        style={styles.input}
+        onChangeText={(val)=>setDesc(val)}
+        //value={text}
+       // keyboardType="text"
+        placeholder="Description"
+      />
       
-      <Pressable style={styles.button} onPress={() => navigation.navigate('Repair3')} >
+      <Pressable style={styles.button} onPress={register} >
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 

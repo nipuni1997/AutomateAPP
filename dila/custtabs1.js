@@ -2,8 +2,8 @@ import React from "react";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Customerhome from './customerhome';
-import MyCart from './mycart';
-import CustAddAd from './custad';
+// import MyCart from './mycart';
+// import CustAddAd from './custad';
 import Chat from './chat';
 import Myacc from './custmyacc';
 
@@ -28,7 +28,7 @@ const Btabs = ()=> (
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="My Cart"
         component={MyCart}
         options={{
@@ -38,8 +38,8 @@ const Btabs = ()=> (
             <MaterialCommunityIcons name="cart" color={color} size={26} />
           ),
         }}
-      />
-      <Tab.Screen
+      /> */}
+      {/* <Tab.Screen
         name="Add Ad"
         component={CustAddAd}
         options={{
@@ -49,7 +49,7 @@ const Btabs = ()=> (
             <MaterialCommunityIcons name="plus-circle" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Chat"
         component={Chat}

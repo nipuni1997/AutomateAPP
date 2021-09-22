@@ -8,18 +8,19 @@ export default function Repair3(props) {
   const { onPress, title = 'Continue' } = props;
   const [description,setInput]=useState('');
   const register = ()=>{
-    Axios.post('http://192.168.8.103:3001/registerrepair',{
+    Axios.post('http://192.168.1.16:3001/user/registerrepair',{
      
       description:description
      
   
-   }).then(response => response.json())
-   .then(response => {
-     console.log(response)
-   })
-   .catch(error => alert("Error " + error))
-   
-  };
+   }).then((response)=>{
+    console.log(response);
+    navigation.navigate('Repair4');
+    }
+    // console.log(response.data[0].userrole);
+    
+  );
+};
 
   return (
     <View style={styles.container}>
@@ -47,7 +48,7 @@ export default function Repair3(props) {
         placeholder="Description"
       />
       
-      <Pressable style={styles.button} onPress={() => navigation.navigate('Repair4')}>
+      <Pressable style={styles.button} onPress={register}>
       <Text style={styles.text}>{title}</Text>
     </Pressable>
 
